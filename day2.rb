@@ -7,7 +7,6 @@ class PasswordPolicyCop
     end
 
     def solve
-
         valid_count = 0
 
         read_file_from_disk.each do |line|
@@ -28,8 +27,8 @@ class PasswordPolicyCop
         policy = line.split(": ")[0]
         {
             character: policy.split(" ")[1],
-            first_number: policy.split("-")[0].to_i,
-            second_number: policy.split(" ")[0].split("-")[1].to_i
+            first: policy.split("-")[0].to_i,
+            second: policy.split(" ")[0].split("-")[1].to_i
         } 
     end
     
@@ -39,14 +38,14 @@ class PasswordPolicyCop
 
     def validate(password, policy)
         character_count = password.count(policy[:character])
-        character_count >= policy[:first_number] and character_count <= policy[:second_number]
+        character_count >= policy[:first] and character_count <= policy[:second]
     end
 
 end
 
 class PasswordPolicyCopV2 < PasswordPolicyCop
     def validate(password, policy)
-        (password[policy[:first_number]-1] == policy[:character]) ^ (password[policy[:second_number]-1] == policy[:character])
+        (password[policy[:first]-1] == policy[:character]) ^ (password[policy[:second]-1] == policy[:character])
     end
 end
 
