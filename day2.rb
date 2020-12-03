@@ -28,8 +28,8 @@ class PasswordPolicyCop
         policy = line.split(": ")[0]
         {
             character: policy.split(" ")[1],
-            min: policy.split("-")[0].to_i,
-            max: policy.split(" ")[0].split("-")[1].to_i
+            first_number: policy.split("-")[0].to_i,
+            second_number: policy.split(" ")[0].split("-")[1].to_i
         } 
     end
     
@@ -39,23 +39,14 @@ class PasswordPolicyCop
 
     def validate(password, policy)
         character_count = password.count(policy[:character])
-        character_count >= policy[:min] and character_count <= policy[:max]
+        character_count >= policy[:first_number] and character_count <= policy[:second_number]
     end
 
 end
 
 class PasswordPolicyCopV2 < PasswordPolicyCop
-    def parse_policy(line)
-        policy = line.split(": ")[0]
-        {
-            character: policy.split(" ")[1],
-            pos1: policy.split("-")[0].to_i,
-            pos2: policy.split(" ")[0].split("-")[1].to_i
-        } 
-    end
-
     def validate(password, policy)
-        (password[policy[:pos1]-1] == policy[:character]) ^ (password[policy[:pos2]-1] == policy[:character])
+        (password[policy[:first_number]-1] == policy[:character]) ^ (password[policy[:second_number]-1] == policy[:character])
     end
 end
 
