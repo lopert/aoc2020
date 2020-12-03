@@ -42,16 +42,16 @@ class PasswordPolicyCop
 end
 
 class PasswordPolicyCopV2 < PasswordPolicyCop
-    def solve_part_two
+    def solve
         file_data = File.read(@filename).split("\n")
 
         valid_count = 0
 
         file_data.each do |line|
-            policy = parse_policy_part_two(line)
+            policy = parse_policy(line)
             password = parse_password(line)
 
-            if validate_part_two(password, policy)
+            if validate(password, policy)
                 valid_count += 1
             end
         end
@@ -59,7 +59,7 @@ class PasswordPolicyCopV2 < PasswordPolicyCop
         return valid_count
     end
 
-    def parse_policy_part_two(line)
+    def parse_policy(line)
         policy = line.split(": ")[0]
         {
             character: policy.split(" ")[1],
@@ -68,7 +68,7 @@ class PasswordPolicyCopV2 < PasswordPolicyCop
         } 
     end
 
-    def validate_part_two(password, policy)
+    def validate(password, policy)
         (password[policy[:pos1]-1] == policy[:character]) ^ (password[policy[:pos2]-1] == policy[:character])
     end
 end
@@ -76,4 +76,4 @@ end
 solver = PasswordPolicyCop.new("day2input.txt")
 puts solver.solve_part_one
 solver2 = PasswordPolicyCopV2.new("day2input.txt")
-puts solver2.solve_part_two
+puts solver2.solve
