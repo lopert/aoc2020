@@ -23,7 +23,7 @@ class ExpenseReader
     def solve_part_one
         file_data = File.read(@filename).split
 
-        #
+        # start by splitting the list in "over or under 1k"
         under_one_thousand = []
 
         file_data.each_with_index do |number, index|
@@ -33,6 +33,7 @@ class ExpenseReader
             end
         end
 
+        # n^2, but actually quicker because of the initial split
         under_one_thousand.each do |small_string|
             file_data.each do |large_string|
                 small_number = small_string.to_i
@@ -55,9 +56,42 @@ class ExpenseReader
     # In your expense report, what is the product of the three entries that sum to 2020?
     def solve_part_two
 
+        file_data = File.read(@filename).split
+
+        #shitty attempt with nested loops
+        file_data.each_with_index do |str1, index1|
+
+            #remove this number from the array, since we're about to test it against everything
+            file_data.slice!(index1)
+
+            file_data.each_with_index do |str2, index2|
+                #remove this number from the array, since we're about to test it against all remaining values
+                file_data.slice!(index2)
+
+                file_data.each_with_index do |str3, index3|
+
+                    num1 = str1.to_i
+                    num2 = str2.to_i
+                    num3 = str3.to_i
+
+                    if (num1 + num2 + num3) == 2020
+                        return num1 * num2 * num3
+                    end
+
+                end
+
+                #if we get here, it wasn't a match with the first, so put it back so it can be used again
+                file_data.insert(index2, str2)
+
+            end
+
+        end
+
+
     end
 
 end
 
 solver = ExpenseReader.new("day1input.txt")
 puts solver.solve_part_one
+puts solver.solve_part_two
