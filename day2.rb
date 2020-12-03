@@ -39,6 +39,9 @@ class PasswordPolicyCop
         character_count >= policy[:min] and character_count <= policy[:max]
     end
 
+end
+
+class PasswordPolicyCopV2 < PasswordPolicyCop
     def solve_part_two
         file_data = File.read(@filename).split("\n")
 
@@ -50,7 +53,6 @@ class PasswordPolicyCop
 
             if validate_part_two(password, policy)
                 valid_count += 1
-                puts "Success! Currently at #{valid_count}"
             end
         end
 
@@ -69,9 +71,9 @@ class PasswordPolicyCop
     def validate_part_two(password, policy)
         (password[policy[:pos1]-1] == policy[:character]) ^ (password[policy[:pos2]-1] == policy[:character])
     end
-
 end
 
 solver = PasswordPolicyCop.new("day2input.txt")
 puts solver.solve_part_one
-puts solver.solve_part_two
+solver2 = PasswordPolicyCopV2.new("day2input.txt")
+puts solver2.solve_part_two
