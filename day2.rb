@@ -7,11 +7,10 @@ class PasswordPolicyCop
     end
 
     def solve
-        file_data = File.read(@filename).split("\n")
 
         valid_count = 0
 
-        file_data.each do |line|
+        read_file_from_disk.each do |line|
             policy = parse_policy(line)
             password = parse_password(line)
 
@@ -19,6 +18,10 @@ class PasswordPolicyCop
         end
 
         return valid_count
+    end
+
+    def read_file_from_disk
+        File.read(@filename).split("\n")
     end
 
     def parse_policy(line)
@@ -42,23 +45,6 @@ class PasswordPolicyCop
 end
 
 class PasswordPolicyCopV2 < PasswordPolicyCop
-    def solve
-        file_data = File.read(@filename).split("\n")
-
-        valid_count = 0
-
-        file_data.each do |line|
-            policy = parse_policy(line)
-            password = parse_password(line)
-
-            if validate(password, policy)
-                valid_count += 1
-            end
-        end
-
-        return valid_count
-    end
-
     def parse_policy(line)
         policy = line.split(": ")[0]
         {
