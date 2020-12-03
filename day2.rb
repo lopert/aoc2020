@@ -6,7 +6,7 @@ class PasswordPolicyCop
         @filename = input
     end
 
-    def solve_part_one
+    def solve
         file_data = File.read(@filename).split("\n")
 
         valid_count = 0
@@ -74,6 +74,6 @@ class PasswordPolicyCopV2 < PasswordPolicyCop
 end
 
 solver = PasswordPolicyCop.new("day2input.txt")
-puts solver.solve_part_one
+puts solver.solve
 solver2 = PasswordPolicyCopV2.new("day2input.txt")
 puts solver2.solve
