@@ -9,14 +9,12 @@ class PasswordPolicyCop
     def solve
         valid_count = 0
 
-        read_file_from_disk.each do |line|
+        read_file_from_disk.each.inject(0) do |count, line|
             policy = parse_policy(line)
             password = parse_password(line)
-
-            valid_count += 1 if validate(password, policy)
+            validate(password, policy) ? count+1 : count
         end
 
-        return valid_count
     end
 
     def read_file_from_disk
