@@ -3,6 +3,7 @@ class PassportChecker
     def initialize
         @data = File.read("day4input.txt").split("\n\n")
         @passports = []
+        @alex = 0
     end
 
     def solve
@@ -30,6 +31,7 @@ class PassportChecker
 
     def count_valid_passports
         count = 0
+        puts "Validating #{@passports.length} passports..."
         @passports.each do |passport|
             count += 1 if validate_passport(passport)
         end
@@ -59,9 +61,9 @@ class PassportCheckerV2 < PassportChecker
 
         # pp "keys validated"
 
-        return false unless (passport[:byr].to_i >= 1920) and (passport[:byr].to_i <= 2002)
-        return false unless (passport[:iyr].to_i >= 2010) and (passport[:iyr].to_i <= 2020)
-        return false unless (passport[:eyr].to_i >= 2020) and (passport[:eyr].to_i <= 2030)
+        return false unless ((passport[:byr].to_i >= 1920) and (passport[:byr].to_i <= 2002))
+        return false unless ((passport[:iyr].to_i >= 2010) and (passport[:iyr].to_i <= 2020))
+        return false unless ((passport[:eyr].to_i >= 2020) and (passport[:eyr].to_i <= 2030))
 
         # pp "numeric checks passed"
         return false unless validate_height(passport[:hgt])
@@ -85,13 +87,17 @@ class PassportCheckerV2 < PassportChecker
         unit = hgt[-2..-1]
         dimension = hgt[0..-3].to_i
 
+        # puts "#{unit}, #{dimension}"
+
         if unit == "cm"
-            return false unless ((dimension >= 150) or (dimension <= 193))
+            return false unless ((dimension >= 150) and (dimension <= 193))
         elsif unit == "in"
-            return false unless ((dimension >= 59) or (dimension <= 76))
+            return false unless ((dimension >= 59) and (dimension <= 76))
         else
             return false
         end
+
+        # puts "#{unit}, #{dimension}"
 
         return true
     end
