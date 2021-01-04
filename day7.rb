@@ -1,3 +1,14 @@
+class Bag
+
+    attr_accessor :color, :contains
+
+    def initialize(color, contains)
+        @color = color
+        @contains = contains
+    end
+
+end
+
 class RuleReader
 
     def initialize
@@ -26,12 +37,15 @@ class RuleReader
         # format data into a hash
         contained = []
         contains.each do |data|
-            # drop last word
-            data = data.split(" ")[0..-2]
-            contained_color = "#{data[1]} #{data[2]}"
-            contained_qty = data[0]
-
-            contained << { color: contained_color, quantity: contained_qty }
+            if data.include?("no other")
+                contained = []
+            else
+                # drop last word
+                data = data.split(" ")[0..-2]
+                contained_color = "#{data[1]} #{data[2]}"
+                contained_qty = data[0]
+                contained << { color: contained_color, quantity: contained_qty }
+            end
         end
 
         Bag.new(color, contained)
@@ -71,21 +85,38 @@ class RuleReader
 
         end
 
-        puts "Found #{bag_list.uniq.count} bags that could contain #{initial_color}"
+        puts "Found #{bag_list.uniq.count} bags that could contain #{initial_color}."
 
     end
 
 end
 
-class Bag
+class RuleReaderV2 < RuleReader
+    def solve(color)
+        count = 0
+        bag_queue = @bags.select {|bag| bag.color == color}
 
-    attr_accessor :color, :contains
+        while bag_queue.any?
+            # p bag_queue
+            current_bag = bag_queue.shift
+            # p current_bag
+        
+            current_bag.contains.each do |contained_bag|
 
-    def initialize(color, contains)
-        @color = color
-        @contains = contains
+                # puts "A #{current_bag.color} bag contains #{contained_bag[:quantity].to_i} #{contained_bag[:color]} bags."
+                count += contained_bag[:quantity].to_i
+                bag = @bags.select {|bag| bag.color == contained_bag[:color]}
+                
+                contained_bag[:quantity].to_i.times do
+                    
+                    bag_queue << bag[0]
+                end
+            end
+        end
+
+        puts "A #{color} bag must contain #{count} bags."
+
     end
-
 end
 
 solver = RuleReader.new
@@ -93,3 +124,8 @@ solver.solve("shiny gold")
 
 # 574 too high
 # 573 too high
+
+solver_two = RuleReaderV2.new
+solver_two.solve("shiny gold")
+
+# 358 too low
