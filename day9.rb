@@ -1,7 +1,7 @@
 class EncodingError
     def initialize()
         @pre_length = 25
-        @number_output = File.read("day11input.txt").split("\n").map!{|e| e.to_i }
+        @number_output = File.read("day9input.txt").split("\n").map!{|e| e.to_i }
     end
 
     def solve
