@@ -150,45 +150,17 @@ class SeatingSystemV2 < SeatingSystem
         width = @states[0].size - 1
         
         #ortho
-        if rindex > 0 #up
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,0]) == "#"
-        end
-
-        if rindex < height #down
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,0]) == "#"
-        end
-
-        if cindex > 0 #left
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[0,-1]) == "#"
-        end
-
-        if cindex < width #right
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[0,1]) == "#"
-        end
-     
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,0]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,0]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[0,-1]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[0,1]) == "#"
+        
         #diag
-        if rindex > 0 and cindex > 0 #up left
-            # puts "A" if (rindex == 1 and cindex == 1)
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,-1]) == "#"
-        end
-
-        if rindex > 0 and cindex < width #up right
-            # puts "B" if (rindex == 1 and cindex == 1)
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,1]) == "#"
-        end
-
-        if rindex < height and cindex > 0 #down left
-            # puts "C" if (rindex == 1 and cindex == 1)
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,-1]) == "#"
-        end
-
-        if rindex < height and cindex < width #down right
-            # puts "D" if (rindex == 1 and cindex == 1)
-            adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,1]) == "#"
-        end
-
-        # puts "#{adj_count}" if (rindex == 1 and cindex == 1)
-        # puts adj_count
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,-1]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[-1,1]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,-1]) == "#"
+        adj_count +=1 if first_seat_in_direction(rindex,cindex,[1,1]) == "#"
+     
         adj_count
     end
 
